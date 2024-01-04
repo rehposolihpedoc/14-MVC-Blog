@@ -39,6 +39,18 @@ router.delete('/:id', withAuth, async (req, res) => {
     try {  
         const commentDataDB = await Comment.destroy({
             where: {
-                
-            }
-        })
+                id: req.params.id,
+            },
+        });
+
+        if (!commentDataDB) {
+            res.status(404).json({ message: 'No comment found with this provided id!' });
+            return;
+          }
+          res.status(200).json(commentDataDB)
+    } catch (err) {
+        res.status(500).json(err);
+    }
+ });
+
+ module.exports = router;
